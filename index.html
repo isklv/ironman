@@ -60,8 +60,11 @@
     }
 
     // initial report after game boots
-    window.game.events.on('boot', () => {
-        reportOrientation('boot');
+    window.addEventListener('load', () => {
+        if (window.game && window.game.events) {
+            window.game.events.on('boot', () => reportOrientation('boot'));
+        }
+        reportOrientation('load');
     });
 
     window.addEventListener('resize', function onResize() {
