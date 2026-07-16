@@ -108,11 +108,12 @@ const config = {
         default: 'arcade',
         arcade: { gravity: { y: 0 }, debug: false }
     },
-    scene: ['PlayScene']
+    scene: PlayScene   // class reference — Phaser registers it by constructor name
 };
 
 window.game = new Phaser.Game(config);
-window.game.start();
+// start the loop AFTER boot, otherwise scenes are still pending and nothing renders
+window.game.events.on('boot', () => window.game.start());
 
 // ============================================================
 // PLAY SCENE — everything lives here (single-scene design)
