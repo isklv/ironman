@@ -85,44 +85,6 @@
    IRON MAN: SKY ASSAULT — Phaser 3, single-file, procedural art
    ============================================================ */
 
-// --------------- constants (tweak freely) -----------------
-const PLAYER_SPEED    = 320;
-const PLAYER_HP       = 100;
-const REPEL_COOLDOWN  = 200;      // ms between repulsor shots
-const UNIBEAM_COOLDOWN = 5000;    // ms between unibeam blasts
-const UNIBEAM_DMG     = 3;       // damage per beam sweep
-const DRONE_INTERVAL  = 1500;    // spawn interval, ms
-const STAR_COUNT      = 120;
-const BUILDING_COUNT  = 18;
-
-// --------------- game config (Phaser.Types.Core.GameConfig) --
-const config = {
-    type: Phaser.AUTO,
-    parent: 'game-container',
-    width: 800,
-    height: 600,
-    backgroundColor: '#0d0d1a',
-    scale: {
-        mode: Phaser.Scale.FIT,
-        autoCenter: Phaser.Scale.CENTER_HORIZONTALLY | Phaser.Scale.CENTER_VERTICALLY,
-        fullScreenStyle: 'width: 100%; height: 100%; object-fit: contain; background: #0a0a14;'
-    },
-    physics: {
-        default: 'arcade',
-        arcade: { gravity: { y: 0 }, debug: false }
-    },
-    scene: PlayScene   // class reference — Phaser registers it by constructor name
-};
-
-window.game = new Phaser.Game(config);
-// explicit registration — class-only `scene:` entries fail to boot in 3.90.0
-window.game.scene.add('PlayScene', PlayScene);
-// start the loop AFTER boot, otherwise scenes are still pending and nothing renders
-window.game.events.on('boot', () => window.game.start());
-
-// ============================================================
-// PLAY SCENE — everything lives here (single-scene design)
-// ============================================================
 class PlayScene extends Phaser.Scene {
     constructor() { super('PlayScene'); }
 
@@ -188,6 +150,44 @@ class PlayScene extends Phaser.Scene {
             g.lineBetween(20 + Math.cos(a) * 10, 20 + Math.sin(a) * 10,
                           20 + Math.cos(a) * 22, 20 + Math.sin(a) * 22);
         }
+// --------------- constants (tweak freely) -----------------
+const PLAYER_SPEED    = 320;
+const PLAYER_HP       = 100;
+const REPEL_COOLDOWN  = 200;      // ms between repulsor shots
+const UNIBEAM_COOLDOWN = 5000;    // ms between unibeam blasts
+const UNIBEAM_DMG     = 3;       // damage per beam sweep
+const DRONE_INTERVAL  = 1500;    // spawn interval, ms
+const STAR_COUNT      = 120;
+const BUILDING_COUNT  = 18;
+
+// --------------- game config (Phaser.Types.Core.GameConfig) --
+const config = {
+    type: Phaser.AUTO,
+    parent: 'game-container',
+    width: 800,
+    height: 600,
+    backgroundColor: '#0d0d1a',
+    scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_HORIZONTALLY | Phaser.Scale.CENTER_VERTICALLY,
+        fullScreenStyle: 'width: 100%; height: 100%; object-fit: contain; background: #0a0a14;'
+    },
+    physics: {
+        default: 'arcade',
+        arcade: { gravity: { y: 0 }, debug: false }
+    },
+    scene: PlayScene   // class reference — Phaser registers it by constructor name
+};
+
+window.game = new Phaser.Game(config);
+// explicit registration — class-only `scene:` entries fail to boot in 3.90.0
+window.game.scene.add('PlayScene', PlayScene);
+// start the loop AFTER boot, otherwise scenes are still pending and nothing renders
+window.game.events.on('boot', () => window.game.start());
+
+// ============================================================
+// PLAY SCENE — everything lives here (single-scene design)
+// ============================================================
         this.textures.generate('drone', g, 0, 0, 40, 40);
         g.clear();
 
