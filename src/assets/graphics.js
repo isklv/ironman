@@ -1,12 +1,13 @@
 // Procedural sprite generator — draws everything with Phaser.Graphics,
 // so the game has zero image assets to ship.
+// API note: lib/phaser.min.js is Phaser 3 (fillRect, not fillRectangle).
 export default function createGraphics(scene) {
     const g = scene.make.graphics({ add: false });
 
     // --- Iron Man sprite (80x60) ---
     // torso
     g.fillStyle(0xb71c1c, 1);
-    g.fillRectangle(25, 15, 30, 35);
+    g.fillRect(25, 15, 30, 35);
     // arc reactor (chest core)
     g.fillStyle(0x1de9b6, 1);
     g.fillCircle(40, 30, 7);
@@ -14,8 +15,8 @@ export default function createGraphics(scene) {
     g.strokeCircle(40, 30, 7);
     // shoulders + arms
     g.fillStyle(0xb71c1c, 1);
-    g.fillRectangle(5, 18, 22, 16);
-    g.fillRectangle(53, 18, 22, 16);
+    g.fillRect(5, 18, 22, 16);
+    g.fillRect(53, 18, 22, 16);
     // fists (gold)
     g.fillStyle(0xf9a825, 1);
     g.fillCircle(14, 26, 7);
@@ -33,8 +34,8 @@ export default function createGraphics(scene) {
     g.fillTriangle(54, 5, 46, 9, 54, 13);
     // legs (boots)
     g.fillStyle(0xb71c1c, 1);
-    g.fillRectangle(22, 48, 14, 14);
-    g.fillRectangle(44, 48, 14, 14);
+    g.fillRect(22, 48, 14, 14);
+    g.fillRect(44, 48, 14, 14);
     // thruster vents
     g.fillStyle(0x1de9b6, 0.7);
     g.fillEllipse(29, 58, 6, 3);
@@ -70,7 +71,7 @@ export default function createGraphics(scene) {
     g.fillCircle(25, 26, 7);
     // cannon barrel pointing left
     g.fillStyle(0x9c27b0, 1);
-    g.fillRectangle(-4, 20, 14, 8);
+    g.fillRect(-4, 20, 14, 8);
     scene.textures.generate('heavydrone', g, 0, 0, 50, 50);
     g.clear();
 
@@ -87,13 +88,8 @@ export default function createGraphics(scene) {
     scene.textures.generate('enemybullet', g, 0, 0, 14, 14);
 
     // --- unibeam flash (256x16) ---
-    const grad = g.createLinearGradient(0, 0, 256, 0);
-    grad.addColorStop(0, 'rgba(29,233,182,0)');
-    grad.addColorStop(0.4, 'rgba(29,233,182,0.85)');
-    grad.addColorStop(0.6, 'rgba(255,255,255,0.95)');
-    grad.addColorStop(1, 'rgba(29,233,182,0)');
-    g.fillStyle(grad, 1);
-    g.fillRectangle(0, 0, 256, 16);
+    g.fillGradientStyle(0, 0, 256, 0, [0x1de9b6, 0], [0x1de9b6, 0.85], [0xffffff, 0.95], [0x1de9b6, 0]);
+    g.fillRect(0, 0, 256, 16);
     scene.textures.generate('beam', g, 0, 0, 256, 16);
 
     // --- thruster particle (8x8) ---
@@ -101,5 +97,5 @@ export default function createGraphics(scene) {
     g.fillCircle(4, 4, 3.5);
     scene.textures.generate('particle', g, 0, 0, 8, 8);
 
-    g.destroy();
+    // Graphics temp object — nothing was added to the display list, no destroy needed.
 }
