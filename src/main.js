@@ -20,7 +20,8 @@ const config = {
 };
 
 window.game = new Phaser.Game(config);
-// explicit registration — class-only `scene:` entries fail to boot in 3.90.0
-window.game.scene.add('PlayScene', PlayScene);
+// PlayScene is already registered via config.scene — adding it again with
+// scene.add() creates a duplicate key and crashes boot ("Cannot add Scene
+// with duplicate key: PlayScene").
 // start the loop AFTER boot, otherwise scenes are still pending and nothing renders
 window.game.events.on('boot', () => window.game.start());
